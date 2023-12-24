@@ -12,7 +12,7 @@ import com.linkan.artbookhilt.databinding.FragmentArtBinding
 
 class ArtFragment : Fragment(R.layout.fragment_art) {
 
-    var mBinding : FragmentArtBinding? = null
+    private var mBinding : FragmentArtBinding? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         mBinding = FragmentArtBinding.bind(view)

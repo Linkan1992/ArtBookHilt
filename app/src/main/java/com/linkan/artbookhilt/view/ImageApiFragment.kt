@@ -12,7 +12,7 @@ import kotlinx.coroutines.launch
 
 class ImageApiFragment : Fragment(R.layout.fragment_image_api) {
 
-    var mBinding : FragmentImageApiBinding? = null
+    private var mBinding : FragmentImageApiBinding? = null
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         Toast.makeText(context, "ImageApiFragment >> onViewCreated", Toast.LENGTH_SHORT).show()
