@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <androidx.appcompat.widget.AppCompatImageView
+        android:id="@+id/img_art"
+        android:layout_width="150dp"
+        android:layout_height="150dp"
+        android:layout_margin="16dp"
+        android:src="@drawable/ic_launcher_background"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.3" />
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/il_art_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="16dp"
+        android:layout_marginTop="30dp"
+        android:hint="Enter Art Name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/img_art">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_art_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="Pablo Luxury Jail" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/il_artist_name"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:hint="Enter Artist Name"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/il_art_name">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_artist_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="Pablo escobar" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/il_art_year"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:hint="Enter Art Year"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/il_artist_name">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/et_art_year"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            tools:text="1985" />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/btn_save"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="16dp"
+        android:text="Save"
+        android:textAllCaps="true"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
