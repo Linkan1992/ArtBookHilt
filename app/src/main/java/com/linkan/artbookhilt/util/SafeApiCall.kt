@@ -9,9 +9,7 @@ inline fun <T> safeApiCall(apiFun: () -> Response<T>?): Resource<T> {
         response?.takeIf { it.isSuccessful && it.body() != null }?.let {
             return Resource.success(data = response.body())
         }
-        /*if (response != null && response.isSuccessful) {
-            return Resource.success(data = response.body())
-        }*/
+
         return Resource.error(response?.message() ?: "Error", null)
     } catch (exe: Exception) {
         return Resource.error(exe.message ?: "No Data", null)

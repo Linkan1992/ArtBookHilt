@@ -1,5 +1,6 @@
 package com.linkan.artbookhilt.viewmodel
 
+import android.util.Log
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -77,6 +78,7 @@ class ArtViewModel @Inject constructor(
         }
         images.value = Resource.loading(null)
         viewModelScope.launch {
+            Log.d("ArtViewModel", "I'm working in Thread = ${Thread.currentThread().name}")
             val response = artRepository.searchImage(searchString)
             images.value = response
         }

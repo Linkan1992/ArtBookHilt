@@ -1,6 +1,7 @@
 package com.linkan.artbookhilt.view
 
 import android.os.Bundle
+import android.util.Log
 import android.view.View
 import android.widget.Toast
 import androidx.core.widget.addTextChangedListener
@@ -24,11 +25,12 @@ import javax.inject.Inject
 
 @AndroidEntryPoint
 class ImageApiFragment @Inject constructor(
-     private val imageRecyclerAdapter: ImageRecyclerAdapter) : Fragment(R.layout.fragment_image_api) {
+    private val imageRecyclerAdapter: ImageRecyclerAdapter
+) : Fragment(R.layout.fragment_image_api) {
 
-    private var mBinding : FragmentImageApiBinding? = null
+    private var mBinding: FragmentImageApiBinding? = null
 
-    private val mViewModel : ArtViewModel by activityViewModels()
+    private val mViewModel: ArtViewModel by activityViewModels()
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         Toast.makeText(context, "ImageApiFragment >> onViewCreated", Toast.LENGTH_SHORT).show()
@@ -39,17 +41,21 @@ class ImageApiFragment @Inject constructor(
         initSearch()
     }
 
-    private var job : Job? = null
+    private var job: Job? = null
     private fun initSearch() {
         mBinding?.searchText?.addTextChangedListener {
             job?.cancel()
             job = lifecycleScope.launch {
                 delay(1000)
-               it?.toString()
-                   ?.takeIf { it.isNotEmpty() }
-                   ?.let{
-                       mViewModel.searchForImage(it)
-                   }
+                Log.d(
+                    "ImageApiFragment",
+                    "I'm Searching in Thread = ${Thread.currentThread().name}"
+                )
+                it?.toString()
+                    ?.takeIf { it.isNotEmpty() }
+                    ?.let {
+                        mViewModel.searchForImage(it)
+                    }
             }
         }
     }
@@ -68,24 +74,27 @@ class ImageApiFragment @Inject constructor(
     }
 
     private fun subscribeToObserver() {
-        mViewModel.imageList.observe(viewLifecycleOwner){
-                when(it.status){
-                    Status.SUCCESS -> {
-                        val urls = it.data?.hits?.map { imageResult ->
-                            imageResult.previewURL
-                        }
+        mViewModel.imageList.observe(viewLifecycleOwner) {
+            when (it.status) {
+                Status.SUCCESS -> {
+                    val urls = it.data?.hits?.map { imageResult ->
+                        imageResult.previewURL
+                    }
 
-                        imageRecyclerAdapter.imageList = urls  ?: listOf()
-                        mBinding?.progressBar?.visibility = View.GONE
-                    }
-                    Status.ERROR -> {
-                        Toast.makeText(requireContext(), it.message ?: "Error", Toast.LENGTH_SHORT).show()
-                        mBinding?.progressBar?.visibility = View.GONE
-                    }
-                    Status.LOADING -> {
-                        mBinding?.progressBar?.visibility = View.VISIBLE
-                    }
+                    imageRecyclerAdapter.imageList = urls ?: listOf()
+                    mBinding?.progressBar?.visibility = View.GONE
                 }
+
+                Status.ERROR -> {
+                    Toast.makeText(requireContext(), it.message ?: "Error", Toast.LENGTH_SHORT)
+                        .show()
+                    mBinding?.progressBar?.visibility = View.GONE
+                }
+
+                Status.LOADING -> {
+                    mBinding?.progressBar?.visibility = View.VISIBLE
+                }
+            }
         }
     }
 
