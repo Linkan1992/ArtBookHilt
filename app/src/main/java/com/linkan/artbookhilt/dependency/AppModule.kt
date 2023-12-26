@@ -52,9 +52,9 @@ class AppModule {
             .create(RetrofitAPI::class.java)
     }
     
-    @Provides
+    /*@Provides
     @Singleton
-    fun injectArtRepositoryInterface(artDao: ArtDao, retrofitAPI: RetrofitAPI) : ArtRepositoryInterface = ArtRepository(artDao, retrofitAPI)
+    fun injectArtRepositoryInterface(artDao: ArtDao, retrofitAPI: RetrofitAPI) : ArtRepositoryInterface = ArtRepository(artDao, retrofitAPI)*/
 
     @Provides
     @Singleton
