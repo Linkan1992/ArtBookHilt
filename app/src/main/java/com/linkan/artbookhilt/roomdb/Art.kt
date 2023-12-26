@@ -1,4 +1,4 @@
-package com.linkan.artbookhilt.util
+package com.linkan.artbookhilt.roomdb
 
 import androidx.room.ColumnInfo
 import androidx.room.Entity

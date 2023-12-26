@@ -6,14 +6,35 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.navigation.fragment.findNavController
+import androidx.recyclerview.widget.ItemTouchHelper
+import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
+import com.bumptech.glide.RequestManager
 import com.linkan.artbookhilt.R
+import com.linkan.artbookhilt.adapter.ArtRecyclerAdapter
 import com.linkan.artbookhilt.databinding.FragmentArtBinding
+import com.linkan.artbookhilt.viewmodel.ArtViewModel
+import javax.inject.Inject
 
-class ArtFragment : Fragment(R.layout.fragment_art) {
+class ArtFragment @Inject constructor(
+    private val artRecyclerAdapter: ArtRecyclerAdapter) : Fragment(R.layout.fragment_art) {
 
     private var mBinding : FragmentArtBinding? = null
+    private val mViewModel : ArtViewModel by activityViewModels()
 
+    private val swipeCallback  = object : ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT or ItemTouchHelper.RIGHT){
+        override fun onMove(recyclerView: RecyclerView, viewHolder: RecyclerView.ViewHolder, target: RecyclerView.ViewHolder): Boolean {
+            return true
+        }
+
+        override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
+            val layoutPosition = viewHolder.layoutPosition
+            val selectedArt = artRecyclerAdapter.artList[layoutPosition]
+            mViewModel.deleteArt(selectedArt)
+        }
+    }
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         mBinding = FragmentArtBinding.bind(view)
         Toast.makeText(context, "ArtFragment >> onViewCreated", Toast.LENGTH_SHORT).show()
@@ -22,6 +43,26 @@ class ArtFragment : Fragment(R.layout.fragment_art) {
             findNavController().navigate(ArtFragmentDirections.actionArtFragmentToArtFragmentDetails())
         }
 
+        subscribeToObserver()
+        initRecyclerView()
+        bindSwipeCallToRecycler()
+    }
+
+    private fun initRecyclerView() {
+        mBinding?.rvList?.apply {
+            layoutManager = LinearLayoutManager(context, RecyclerView.VERTICAL, false)
+            adapter = artRecyclerAdapter
+        }
+    }
+
+    private fun bindSwipeCallToRecycler() {
+        ItemTouchHelper(swipeCallback).attachToRecyclerView(mBinding?.rvList)
+    }
+
+    private fun subscribeToObserver() {
+        mViewModel.artList.observe(viewLifecycleOwner){
+            artRecyclerAdapter.artList = it
+        }
     }
 
 
