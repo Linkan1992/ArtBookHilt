@@ -23,12 +23,12 @@ class ArtRecyclerAdapter @Inject constructor(
         }
     }
 
-
     private val recyclerListDiffer = AsyncListDiffer(this, diffCallback)
 
     var artList : List<Art>
         set(value) = recyclerListDiffer.submitList(value)
         get() = recyclerListDiffer.currentList
+
     class ArtViewHolder(val mBinding : ArtRowBinding) : RecyclerView.ViewHolder(mBinding.root)
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ArtViewHolder {
