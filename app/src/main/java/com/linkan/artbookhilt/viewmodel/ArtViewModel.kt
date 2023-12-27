@@ -9,6 +9,7 @@ import com.linkan.artbookhilt.api.model.ImageResponse
 import com.linkan.artbookhilt.repo.ArtRepositoryInterface
 import com.linkan.artbookhilt.roomdb.Art
 import com.linkan.artbookhilt.util.Resource
+import com.linkan.artbookhilt.util.runOnBackgroundDispatcher
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -76,12 +77,21 @@ class ArtViewModel @Inject constructor(
         if(searchString.isEmpty()) {
             return
         }
-        images.value = Resource.loading(null)
+
+        /*images.value = Resource.loading(null)
         viewModelScope.launch {
             Log.d("ArtViewModel", "I'm working in Thread = ${Thread.currentThread().name}")
             val response = artRepository.searchImage(searchString)
             images.value = response
-        }
+        }*/
+
+        viewModelScope.runOnBackgroundDispatcher(startLoader = {
+            images.value = Resource.loading(null)
+        }, backgroundFunc = {
+            artRepository.searchImage(searchString)
+        }, callback = { response ->
+            images.value = response
+        })
     }
 
 }
