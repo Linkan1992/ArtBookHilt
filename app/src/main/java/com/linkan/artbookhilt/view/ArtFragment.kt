@@ -66,7 +66,9 @@ class ArtFragment @Inject constructor(
                         tvArtYear.text = "Year of Art : ${item.artYear}"
                     }
                 },
-                clickListener = null)
+                clickListener = {
+
+                })
             adapter = artRecyclerAdapter
         }
     }
